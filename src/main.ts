@@ -4,7 +4,8 @@ import 'tailwindcss/tailwind.css';
 import { createRouter, createWebHistory } from 'vue-router';
 import routes from './router';
 import pkg from '../package.json';
-import { createLifecyle, getMicroApp } from 'vite-plugin-legacy-qiankun'
+import { createLifecyle, getMicroApp } from 'vite-plugin-legacy-qiankun';
+import { ref } from 'vue';
 
 const microApp = getMicroApp(pkg.name)
 
@@ -38,7 +39,9 @@ if (microApp.__POWERED_BY_QIANKUN__) {
   createLifecyle(pkg.name, {
     mount(props) {
       let { container, route } = props
-      render(container);
+      debugger
+      const state = ref(props.getGlobalState())
+      render(container, {token: state.value.token});
     },
     bootstrap() {
       console.log('bootstrap', pkg.name);
